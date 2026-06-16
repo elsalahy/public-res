@@ -49,3 +49,38 @@ pushing.
 
 When adding an entry, copy an existing sibling block as a template so the
 styling stays consistent.
+
+## Edit recipes
+
+Concrete examples for the most common requests. Always finish with a commit +
+push to `origin/master`.
+
+### Update contact info
+The contact block is `<div id="contact">`. Each row has a Font Awesome icon
+`<span>` plus an `<a>`. Edit both the visible link text and the `href`:
+- Email: `<a href="mailto:...">...</a>` in `.email`.
+- Phone: `<a href="tel:...">...</a>` in `.phone` (keep `tel:` href and display
+  text in sync).
+- Website: the `<a href>` in `.website`.
+
+### Add a job
+1. In `<section id="work">`, copy a whole existing `<section class="work-item">`
+   block as a template.
+2. Bump its `<input id="work-item-N">` and matching `<label for="work-item-N">`
+   to the next unused number so the collapse toggle keeps working.
+3. Fill in `.position`, `.company`, `.startDate`, `.endDate`, the optional
+   `.website` link, the `.summary` paragraph, and the `.highlights` `<li>` items.
+4. Increment the `(N)` count in the `Work Experience` section title.
+5. Newest job goes first (top of the section).
+
+### Update the current job's end date
+Find the relevant `.work-item` and edit its `<span class="endDate">`. The
+current role uses `- Current`.
+
+### Add or edit a skill
+In `<section id="skills">`, copy an existing `.item` block and edit its
+`<h3 class="name">` and the listed keywords.
+
+### Edit the summary / title
+- Job title under the name: `<h2 class="label">`.
+- Intro paragraph: the `.main-summary` section near the top of `<body>`.
