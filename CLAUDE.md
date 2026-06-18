@@ -137,6 +137,14 @@ To add a brand-new domain/color, add a `.tl-item[data-domain="x"]` rule (accent
    **`alt` is required** — describe the photo (missing alt logs a warning).
 4. Commit the images **and** the `data.js` edit together; push.
 
+### Featured photo
+The **first non-placeholder image** in a milestone's `images` array is shown as
+a "featured" hero thumbnail on the collapsed card, with a photo-count badge and a
+"See N photos" cue that invites expansion. So order each milestone's `images`
+with the most eye-catching shot first. Milestones that still use the placeholder
+show no hero (the card just says "See details") — keeping the timeline clean
+until real photos are added.
+
 ### Gotchas
 - Relative paths only; back-link is `../`.
 - Keep every `id` unique (used for the anchor and the image folder).
