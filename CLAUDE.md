@@ -15,6 +15,8 @@ Files:
 - `photo.png` — profile photo referenced by `index.html`.
 - `timeline/` — a SECOND page: a visual career timeline served at
   `www.ahmedelsalahy.com/timeline/`. See the "Career timeline" section below.
+- `projects/` — a THIRD page: a free-form projects showcase served at
+  `www.ahmedelsalahy.com/projects/`. See the "Projects page" section below.
 - `CNAME` — custom domain for GitHub Pages. Do not change unless asked.
 - `README.md` — short project description.
 
@@ -149,3 +151,45 @@ until real photos are added.
 - Relative paths only; back-link is `../`.
 - Keep every `id` unique (used for the anchor and the image folder).
 - Images must be pre-optimized before commit.
+
+## Projects page (`/projects/`)
+
+A third, standalone page: a free-form **projects showcase** — side projects,
+degree projects, experiments — independent of the timeline (a project does NOT
+belong to a milestone). It's a responsive grid of project cards; clicking a card
+opens a detail popup with the description, an optional embedded video, external
+links, and a photo gallery (with the same lightbox as the timeline). Linked from
+the résumé's "Browse my projects" button and from the timeline's top nav.
+
+Same static, push-to-deploy model. Structure mirrors the timeline:
+- `projects/index.html` — page shell, all CSS + JS (grid, detail popup, video
+  embed, lightbox). Rarely needs editing.
+- `projects/data.js` — **THE EDIT SURFACE.** A `window.PROJECTS` array. The file
+  header documents every field; it also contains a commented-out TEMPLATE block
+  to copy. Cards render in array order (no sortKey — reorder by moving objects).
+- `projects/img/<project-id>/` — optimized photos for that project.
+- `projects/img/_placeholder/photo.svg` — placeholder cover until real photos.
+
+### Recipe: add a project
+1. Open `projects/data.js`. Copy the commented TEMPLATE block (or an existing
+   object) into `window.PROJECTS`.
+2. Give it a **unique** `id` (slug; also the image folder name and `#anchor`).
+3. Fill `title`, optional `category` (badge) and `dateLabel`, `tags` (chips),
+   `blurb` (card teaser), `description`, optional `highlights` and `links`.
+4. Add photos (recipe below) — **the first image is the card cover.**
+5. Commit + push.
+
+### Recipe: add a video
+Set the project's `video` to a **YouTube or Vimeo URL** (any common form, e.g.
+`https://youtu.be/ID`, `https://www.youtube.com/watch?v=ID`, `https://vimeo.com/ID`).
+It renders a click-to-play embedded player in the detail popup (privacy-friendly:
+nothing loads from the video host until the viewer clicks Play). Any other URL
+becomes a simple "Watch video" button instead. Leave `""` for no video.
+
+### Recipe: add photos to a project
+Same as the timeline: optimize first (thumb ~320px `NN-thumb.jpg` < 40 KB, full
+~1500px `NN.jpg` < 250 KB, JPEG; convert HEIC→JPEG; e.g.
+`sips -Z 1500 -s format jpeg -s formatOptions 80 in.jpg --out 01.jpg` and rotate
+sideways shots with `sips -r 90`). Put them in `projects/img/<project-id>/` and
+add `{ thumb, full, alt }` entries to that project's `images` (first = cover).
+`alt` is required.

@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ahmed Elsalahy — Projects</title>
+  <meta name="description" content="A showcase of Ahmed Elsalahy's projects — side projects, degree projects and more.">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css"
+        integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
+  <style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-size: 13px; line-height: 1.5; color: #40484f; background: #faf9f7;
+    -webkit-font-smoothing: antialiased;
+  }
+  body.no-scroll { overflow: hidden; }
+  a { color: #0095ff; text-decoration: none; }
+  a:hover { color: #0c65a5; }
+
+  .wrap { max-width: 900px; margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
+
+  /* ---- Top nav ----------------------------------------------------------- */
+  .topnav { display: flex; gap: 1.2rem; margin-bottom: 1.5rem; }
+  .topnav a { display: inline-flex; align-items: center; gap: 0.45em; font-size: 0.95rem; color: #606d76; }
+  .topnav a:hover { color: #40484f; }
+
+  /* ---- Intro ------------------------------------------------------------- */
+  .intro { background: #f1f8ff; border-radius: 8px; padding: 1.5rem 1.6rem; margin-bottom: 2.2rem; }
+  .intro h1 { margin: 0 0 0.3rem; font-size: 2rem; font-weight: 100; color: #202931; }
+  .intro p { margin: 0; color: #606d76; max-width: 60ch; }
+
+  /* ---- Card grid --------------------------------------------------------- */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.2rem; }
+  .project-card {
+    text-align: left; padding: 0; margin: 0; font: inherit; color: inherit;
+    background: #fff; border: 1px solid #ececec; border-radius: 10px; overflow: hidden;
+    cursor: pointer; display: flex; flex-direction: column;
+    box-shadow: 0 1px 3px rgba(20, 30, 40, 0.05);
+    transition: box-shadow .2s ease, transform .2s ease;
+  }
+  .project-card:hover { box-shadow: 0 6px 18px rgba(20, 30, 40, 0.10); transform: translateY(-2px); }
+  .project-card:focus-visible { outline: 2px solid #ff6d1f; outline-offset: 2px; }
+  .pc-cover { aspect-ratio: 16 / 10; background: #f0f0f0; overflow: hidden; }
+  .pc-cover img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .3s ease; }
+  .project-card:hover .pc-cover img { transform: scale(1.04); }
+  .pc-body { padding: 0.9rem 1rem 1.1rem; display: flex; flex-direction: column; gap: 0.35rem; flex: 1; }
+  .pc-cat {
+    align-self: flex-start; font-size: 0.66rem; font-weight: 600; letter-spacing: 0.04em;
+    text-transform: uppercase; color: #ff6d1f; background: #fff1e8; padding: 0.2em 0.55em; border-radius: 999px;
+  }
+  .pc-title { margin: 0; font-size: 1.1rem; font-weight: 600; color: #202931; }
+  .pc-blurb { margin: 0; color: #4a525a; }
+  .pc-tags { margin-top: auto; padding-top: 0.4rem; display: flex; flex-wrap: wrap; gap: 4px; }
+  .pc-tag { font-size: 0.72rem; color: #3e6d8e; background: #dfeaf1; padding: 2px 7px; border-radius: 4px; }
+  .pc-tag.more { background: none; color: #8a949e; }
+
+  /* ---- Detail popup ------------------------------------------------------ */
+  .pdlg {
+    position: fixed; inset: 0; z-index: 60; display: none;
+    align-items: flex-start; justify-content: center; padding: 2rem 1rem;
+    background: rgba(15, 20, 25, 0.6); overflow: auto;
+  }
+  .pdlg.open { display: flex; }
+  .pdlg-box {
+    position: relative; background: #fff; border-radius: 12px;
+    max-width: 760px; width: 100%; padding: 1.6rem 1.6rem 2rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  }
+  .pdlg-close {
+    position: absolute; top: 0.7rem; right: 0.9rem; background: none; border: 0;
+    color: #97a0a8; font-size: 1.8rem; line-height: 1; cursor: pointer;
+  }
+  .pdlg-close:hover { color: #40484f; }
+  .pdlg-close:focus-visible { outline: 2px solid #ff6d1f; outline-offset: 2px; }
+
+  .pd-cat { font-size: 0.66rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+            color: #ff6d1f; background: #fff1e8; padding: 0.2em 0.55em; border-radius: 999px; }
+  .pd-head { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin: 0 2rem 0.2rem 0; }
+  .pd-date { color: #606d76; font-size: 0.9rem; }
+  .pd-title { margin: 0.2rem 0 0.6rem; font-size: 1.6rem; font-weight: 600; color: #202931; }
+  .pd-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 1rem; }
+  .pd-tag { font-size: 0.78rem; color: #3e6d8e; background: #dfeaf1; padding: 3px 8px; border-radius: 4px; }
+  .pd-desc { margin: 0 0 1rem; color: #40484f; }
+  .pd-ach { margin: 0 0 1.1rem; padding-left: 1.1rem; }
+  .pd-ach li { margin-bottom: 0.3rem; }
+  .pd-links { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0 0 1.2rem; }
+  .pd-link {
+    display: inline-flex; align-items: center; gap: 0.45em; padding: 0.45em 0.9em;
+    border: 1px solid #ff6d1f; border-radius: 999px; color: #ff6d1f; font-weight: 600; font-size: 0.9rem;
+  }
+  .pd-link:hover { background: #ff6d1f; color: #fff; }
+
+  /* video */
+  .pd-video { position: relative; aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden;
+              background: #11161b; margin-bottom: 1.2rem; }
+  .pd-video iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .pd-videobtn {
+    position: absolute; inset: 0; width: 100%; height: 100%; border: 0; cursor: pointer;
+    background-size: cover; background-position: center; background-color: #11161b;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pd-videobtn::before { content: ""; position: absolute; inset: 0; background: rgba(15,20,25,0.25); }
+  .pd-play {
+    position: relative; width: 64px; height: 64px; border-radius: 50%;
+    background: rgba(255, 109, 31, 0.95); color: #fff; font-size: 1.5rem;
+    display: flex; align-items: center; justify-content: center; padding-left: 4px;
+  }
+  .pd-videobtn:hover .pd-play { background: #ff6d1f; }
+  .pd-videobtn:focus-visible { outline: 3px solid #fff; outline-offset: -3px; }
+
+  /* gallery (shared look with the timeline) */
+  .pd-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
+  .pd-thumb { padding: 0; border: 1px solid #e6e6e6; border-radius: 6px; overflow: hidden;
+              background: #f4f4f4; cursor: pointer; aspect-ratio: 4 / 3; }
+  .pd-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .pd-thumb:hover { border-color: #ff6d1f; }
+  .pd-thumb:focus-visible { outline: 2px solid #ff6d1f; outline-offset: 2px; }
+
+  /* ---- Photo lightbox (above the popup) ---------------------------------- */
+  .lb { position: fixed; inset: 0; display: none; z-index: 70;
+        background: rgba(15, 20, 25, 0.92); align-items: center; justify-content: center; padding: 1.5rem; }
+  .lb.open { display: flex; }
+  .lb img { max-width: 100%; max-height: 84vh; border-radius: 6px; box-shadow: 0 10px 40px rgba(0,0,0,.5); }
+  .lb figure { margin: 0; text-align: center; }
+  .lb figcaption { color: #d7dce1; font-size: 0.9rem; margin-top: 0.6rem; }
+  .lb-close { position: absolute; top: 1rem; right: 1.2rem; background: none; border: 0;
+              color: #fff; font-size: 1.6rem; cursor: pointer; line-height: 1; }
+  .lb-close:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+  footer { margin-top: 3rem; color: #97a0a8; font-size: 0.85rem; text-align: center; }
+
+  @media screen and (max-width: 600px) {
+    .intro h1 { font-size: 1.7rem; }
+    .pd-title { font-size: 1.3rem; }
+    .pdlg { padding: 0; }
+    .pdlg-box { border-radius: 0; min-height: 100%; }
+  }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="topnav">
+      <a href="../"><span class="fas fa-arrow-left"></span> Résumé</a>
+      <a href="../timeline/"><span class="fas fa-stream"></span> Career timeline</a>
+    </nav>
+
+    <header class="intro">
+      <h1>Projects</h1>
+      <p>A showcase of things I've built — side projects, university projects and experiments.
+         Click any project to read more, see photos, and watch a demo where there is one.</p>
+    </header>
+
+    <div class="grid" id="grid"><!-- rendered from data.js --></div>
+
+    <footer>More projects on the way.</footer>
+  </div>
+
+  <!-- Project detail popup -->
+  <div class="pdlg" id="detail" role="dialog" aria-modal="true" aria-labelledby="pdTitle">
+    <div class="pdlg-box">
+      <button class="pdlg-close" id="pdClose" aria-label="Close">&times;</button>
+      <div id="pdContent"></div>
+    </div>
+  </div>
+
+  <!-- Photo lightbox -->
+  <div class="lb" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <button class="lb-close" id="lbClose" aria-label="Close photo">&times;</button>
+    <figure>
+      <img id="lbImg" src="" alt="">
+      <figcaption id="lbCap"></figcaption>
+    </figure>
+  </div>
+
+  <script src="data.js"></script>
+  <script>
+  (function () {
+    "use strict";
+
+    function esc(s) {
+      return String(s == null ? "" : s)
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    /* resolve a YouTube/Vimeo URL to an embeddable form (privacy-friendly) */
+    function videoEmbed(url) {
+      var yt = String(url).match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/);
+      if (yt) return { embed: "https://www.youtube-nocookie.com/embed/" + yt[1] + "?autoplay=1&rel=0",
+                       thumb: "https://i.ytimg.com/vi/" + yt[1] + "/hqdefault.jpg" };
+      var vm = String(url).match(/vimeo\.com\/(?:video\/)?(\d+)/);
+      if (vm) return { embed: "https://player.vimeo.com/video/" + vm[1] + "?autoplay=1", thumb: null };
+      return null;
+    }
+
+    function realImages(p) {
+      return (p.images || []).filter(function (img) {
+        return img && img.thumb && img.thumb.indexOf("_placeholder") === -1;
+      });
+    }
+    function cover(p) {
+      var r = realImages(p);
+      return (r[0] || (p.images && p.images[0]) || PLACEHOLDER);
+    }
+
+    /* ---- grid ---- */
+    var byId = {};
+    function renderGrid() {
+      var grid = document.getElementById("grid");
+      var frag = document.createDocumentFragment();
+      (window.PROJECTS || []).forEach(function (p) {
+        byId[p.id] = p;
+        var c = cover(p);
+        var tags = (p.tags || []);
+        var shown = tags.slice(0, 4).map(function (t) { return '<span class="pc-tag">' + esc(t) + "</span>"; }).join("");
+        var more = tags.length > 4 ? '<span class="pc-tag more">+' + (tags.length - 4) + "</span>" : "";
+
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "project-card";
+        btn.id = p.id;
+        btn.setAttribute("data-id", p.id);
+        btn.innerHTML =
+          '<span class="pc-cover"><img src="' + esc(c.thumb) + '" alt="' + esc(c.alt) + '" loading="lazy"></span>' +
+          '<span class="pc-body">' +
+            (p.category ? '<span class="pc-cat">' + esc(p.category) + "</span>" : "") +
+            '<span class="pc-title">' + esc(p.title) + "</span>" +
+            (p.blurb ? '<span class="pc-blurb">' + esc(p.blurb) + "</span>" : "") +
+            (tags.length ? '<span class="pc-tags">' + shown + more + "</span>" : "") +
+          "</span>";
+        frag.appendChild(btn);
+      });
+      grid.appendChild(frag);
+    }
+
+    /* ---- detail popup ---- */
+    var detail = document.getElementById("detail");
+    var pdContent = document.getElementById("pdContent");
+    var pdClose = document.getElementById("pdClose");
+    var lastFocus = null;
+
+    function buildDetail(p) {
+      var v = p.video ? videoEmbed(p.video) : null;
+      var videoHtml = "";
+      if (p.video) {
+        if (v) {
+          var bg = v.thumb ? ' style="background-image:url(' + esc(v.thumb) + ')"' : "";
+          videoHtml = '<div class="pd-video">' +
+            '<button class="pd-videobtn" type="button" data-embed="' + esc(v.embed) + '"' + bg +
+            ' aria-label="Play video"><span class="pd-play fas fa-play" aria-hidden="true"></span></button></div>';
+        } else {
+          videoHtml = '<p class="pd-links"><a class="pd-link" href="' + esc(p.video) + '" target="_blank" rel="noopener">' +
+            '<span class="fas fa-play" aria-hidden="true"></span> Watch video</a></p>';
+        }
+      }
+
+      var ach = (p.highlights || []).map(function (a) { return "<li>" + esc(a) + "</li>"; }).join("");
+      var achHtml = ach ? '<ul class="pd-ach">' + ach + "</ul>" : "";
+
+      var links = (p.links || []).filter(function (l) { return l && l.url; })
+        .map(function (l) {
+          return '<a class="pd-link" href="' + esc(l.url) + '" target="_blank" rel="noopener">' +
+            '<span class="fas fa-external-link-alt" aria-hidden="true"></span> ' + esc(l.label || "Link") + "</a>";
+        }).join("");
+      var linksHtml = links ? '<div class="pd-links">' + links + "</div>" : "";
+
+      var gallery = (p.images || []).map(function (img) {
+        if (!img.alt) console.warn("Projects: image in '" + p.id + "' is missing alt text.");
+        return '<button class="pd-thumb" type="button" data-full="' + esc(img.full) + '" data-alt="' + esc(img.alt) + '">' +
+          '<img src="' + esc(img.thumb) + '" alt="' + esc(img.alt) + '" loading="lazy"></button>';
+      }).join("");
+      var galleryHtml = gallery ? '<div class="pd-gallery">' + gallery + "</div>" : "";
+
+      var tags = (p.tags || []).map(function (t) { return '<span class="pd-tag">' + esc(t) + "</span>"; }).join("");
+      var tagsHtml = tags ? '<div class="pd-tags">' + tags + "</div>" : "";
+
+      pdContent.innerHTML =
+        '<div class="pd-head">' +
+          (p.category ? '<span class="pd-cat">' + esc(p.category) + "</span>" : "") +
+          (p.dateLabel ? '<span class="pd-date">' + esc(p.dateLabel) + "</span>" : "") +
+        "</div>" +
+        '<h2 class="pd-title" id="pdTitle">' + esc(p.title) + "</h2>" +
+        tagsHtml +
+        videoHtml +
+        (p.description ? '<p class="pd-desc">' + esc(p.description) + "</p>" : "") +
+        achHtml +
+        linksHtml +
+        galleryHtml;
+    }
+
+    function openDetail(p) {
+      lastFocus = document.activeElement;
+      buildDetail(p);
+      detail.classList.add("open");
+      document.body.classList.add("no-scroll");
+      pdClose.focus();
+      if (history.replaceState) history.replaceState(null, "", "#" + p.id);
+    }
+    function closeDetail() {
+      detail.classList.remove("open");
+      document.body.classList.remove("no-scroll");
+      pdContent.innerHTML = "";
+      if (history.replaceState) history.replaceState(null, "", location.pathname);
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+
+    document.getElementById("grid").addEventListener("click", function (e) {
+      var card = e.target.closest(".project-card");
+      if (card && byId[card.getAttribute("data-id")]) openDetail(byId[card.getAttribute("data-id")]);
+    });
+    pdClose.addEventListener("click", closeDetail);
+    detail.addEventListener("click", function (e) { if (e.target === detail) closeDetail(); });
+
+    /* click-to-load video + gallery thumbs (delegated within the popup) */
+    pdContent.addEventListener("click", function (e) {
+      var vb = e.target.closest(".pd-videobtn");
+      if (vb) {
+        var holder = vb.parentNode;
+        holder.innerHTML = '<iframe src="' + vb.getAttribute("data-embed") +
+          '" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Project video"></iframe>';
+        return;
+      }
+      var th = e.target.closest(".pd-thumb");
+      if (th) openLightbox(th.getAttribute("data-full"), th.getAttribute("data-alt"));
+    });
+
+    /* ---- photo lightbox (layered above the popup) ---- */
+    var lb = document.getElementById("lightbox");
+    var lbImg = document.getElementById("lbImg");
+    var lbCap = document.getElementById("lbCap");
+    var lbClose = document.getElementById("lbClose");
+    var lbReturn = null;
+    function openLightbox(full, alt) {
+      lbReturn = document.activeElement;
+      lbImg.src = full; lbImg.alt = alt || ""; lbCap.textContent = alt || "";
+      lb.classList.add("open");
+      lbClose.focus();
+    }
+    function closeLightbox() {
+      lb.classList.remove("open"); lbImg.src = "";
+      if (lbReturn && lbReturn.focus) lbReturn.focus();
+    }
+    lbClose.addEventListener("click", closeLightbox);
+    lb.addEventListener("click", function (e) { if (e.target === lb) closeLightbox(); });
+
+    /* ---- keyboard: Esc closes topmost layer; Tab traps focus in the popup ---- */
+    function focusables(container) {
+      return Array.prototype.filter.call(
+        container.querySelectorAll('a[href],button,iframe,[tabindex]:not([tabindex="-1"])'),
+        function (el) { return el.offsetParent !== null; });
+    }
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") {
+        if (lb.classList.contains("open")) closeLightbox();
+        else if (detail.classList.contains("open")) closeDetail();
+        return;
+      }
+      if (e.key === "Tab" && detail.classList.contains("open") && !lb.classList.contains("open")) {
+        var f = focusables(detail);
+        if (!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+
+    function start() {
+      renderGrid();
+      if (location.hash) {
+        var p = byId[location.hash.slice(1)];
+        if (p) openDetail(p);
+      }
+    }
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
+    else start();
+  })();
+  </script>
+</body>
+</html>

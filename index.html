@@ -686,17 +686,27 @@ section .location {
   align-items: center;
   gap: 0.5em;
   margin-top: 0.9rem;
+  margin-right: 0.5rem;
   padding: 0.55em 1.1em;
   font-size: 0.95rem;
   font-weight: 600;
   color: #fff;
   background: #ff6d1f;
+  border: 1px solid #ff6d1f;
   border-radius: 999px;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 .timeline-link:hover {
   color: #fff;
   background: #e85f12;
+}
+.timeline-link.alt {
+  color: #ff6d1f;
+  background: #fff;
+}
+.timeline-link.alt:hover {
+  color: #fff;
+  background: #ff6d1f;
 }
 
 @media print {
@@ -884,6 +894,7 @@ section .location {
     		<section class="main-summary">
     			<div><p>Working as an embedded systems engineer in the fields of Automotive and IoT for the past 7+ years, I can tell you with confidence that it is a unique journey. After finishing my electrical engineering bachelor's, I had a goal of honing the craft of embedded software engineering. 2 master's degrees and multiple awesome projects later, and now I'm looking for the next chapter in my journey.</p></div>
     			<a class="timeline-link" href="timeline/"><span class="fas fa-stream"></span> View my career journey &rarr;</a>
+    			<a class="timeline-link alt" href="projects/"><span class="fas fa-folder-open"></span> Browse my projects &rarr;</a>
     		</section>
     	</section>
     
