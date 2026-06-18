@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ahmed Elsalahy — Career Journey</title>
+  <meta name="description" content="A timeline of Ahmed Elsalahy's career milestones across academia, IoT, automotive and quantum.">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css"
+        integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
+  <style>
+  /* ---- Base (shares the resume's font stack & neutrals) ------------------ */
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #40484f;
+    background: #faf9f7;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: #0095ff; text-decoration: none; }
+  a:hover { color: #0c65a5; }
+
+  .wrap { max-width: 820px; margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
+
+  /* ---- Top bar / back link ---------------------------------------------- */
+  .topbar { margin-bottom: 1.5rem; }
+  .back {
+    display: inline-flex; align-items: center; gap: 0.45em;
+    font-size: 0.95rem; color: #606d76;
+  }
+  .back:hover { color: #40484f; }
+
+  /* ---- Intro banner (reuses the resume's light-blue summary tint) -------- */
+  .intro {
+    background: #f1f8ff;
+    border-radius: 8px;
+    padding: 1.5rem 1.6rem;
+    margin-bottom: 2.5rem;
+  }
+  .intro h1 { margin: 0 0 0.3rem; font-size: 2rem; font-weight: 100; color: #202931; }
+  .intro .label { margin: 0 0 0.7rem; font-size: 1.15rem; font-weight: 300; color: #ff6d1f; }
+  .intro p { margin: 0; color: #606d76; max-width: 56ch; }
+
+  /* ---- Domain legend ----------------------------------------------------- */
+  .legend { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; margin-top: 1rem; }
+  .legend span { display: inline-flex; align-items: center; gap: 0.4em; font-size: 0.85rem; color: #606d76; }
+  .legend i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+
+  /* ---- Timeline ---------------------------------------------------------- */
+  .tl { list-style: none; margin: 0; padding: 0; position: relative; }
+  .tl::before {                       /* the vertical spine */
+    content: ""; position: absolute; top: 4px; bottom: 4px; left: 7px;
+    width: 2px; background: #e2e1dd;
+  }
+  .tl-item { position: relative; padding-left: 2.5rem; margin-bottom: 1.5rem; }
+  .tl-node {                          /* the dot on the spine */
+    position: absolute; left: 0; top: 1.4rem;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: #fff; border: 3px solid var(--accent, #ff6d1f);
+    box-shadow: 0 0 0 3px #faf9f7;
+  }
+
+  /* Domain accent tokens (color is never the ONLY signal — see chip below) */
+  .tl-item[data-domain="academia"]   { --accent: #6c63ff; --tint: #efeefe; }
+  .tl-item[data-domain="iot"]        { --accent: #1f9d8f; --tint: #e6f5f3; }
+  .tl-item[data-domain="automotive"] { --accent: #ff6d1f; --tint: #fff1e8; }
+  .tl-item[data-domain="quantum"]    { --accent: #2f5fa6; --tint: #e7eefb; }
+
+  /* ---- Card -------------------------------------------------------------- */
+  .tl-card {
+    background: #fff;
+    border: 1px solid #ececec;
+    border-left: 3px solid var(--accent, #ff6d1f);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(20, 30, 40, 0.05);
+  }
+
+  /* scroll-reveal */
+  .tl-item { opacity: 0; transform: translateY(12px); transition: opacity .5s ease, transform .5s ease; }
+  .tl-item.is-visible { opacity: 1; transform: none; }
+
+  /* clickable header (the label) */
+  .tl-head {
+    display: block; position: relative; cursor: pointer;
+    padding: 1rem 2.5rem 1rem 1.2rem;
+  }
+  .tl-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem; }
+  .tl-chip {
+    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--accent, #ff6d1f); background: var(--tint, #fff1e8);
+    padding: 0.2em 0.55em; border-radius: 999px;
+  }
+  .tl-date { font-size: 0.85rem; color: #606d76; }
+  .tl-title { margin: 0; font-size: 1.2rem; font-weight: 600; color: #202931; }
+  .tl-org { font-size: 0.95rem; color: #606d76; }
+  .tl-blurb { margin: 0.4rem 0 0; color: #4a525a; }
+
+  /* chevron */
+  .tl-head::after {
+    content: "\f0da"; font-family: "Font Awesome 5 Free"; font-weight: 900;
+    position: absolute; right: 1.2rem; top: 1.1rem;
+    color: #b7bdc3; font-size: 1rem; transition: transform .25s ease;
+  }
+  .tl-toggle:checked + .tl-head::after { content: "\f0d7"; }
+
+  /* the collapse mechanism (pure CSS, like the resume) */
+  .tl-toggle { position: absolute; transform: translate(-9999px); opacity: 0; }
+  .tl-detail {
+    max-height: 0; overflow: hidden; opacity: 0;
+    transition: max-height .45s ease, opacity .45s ease, padding .45s ease;
+    padding: 0 1.2rem;
+  }
+  .tl-toggle:checked ~ .tl-detail {
+    max-height: 4000px; opacity: 1; padding: 0 1.2rem 1.2rem;
+  }
+  /* keyboard focus visibility (checkbox is offscreen, so highlight the head) */
+  .tl-toggle:focus-visible + .tl-head { outline: 2px solid var(--accent, #ff6d1f); outline-offset: 2px; border-radius: 8px; }
+
+  .tl-desc { margin: 0.2rem 0 0.8rem; color: #40484f; }
+  .tl-ach { margin: 0 0 1rem; padding-left: 1.1rem; }
+  .tl-ach li { margin-bottom: 0.3rem; }
+
+  /* ---- Gallery ----------------------------------------------------------- */
+  .tl-gallery {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 8px;
+  }
+  .tl-thumb {
+    padding: 0; border: 1px solid #e6e6e6; border-radius: 6px; overflow: hidden;
+    background: #f4f4f4; cursor: pointer; aspect-ratio: 4 / 3;
+  }
+  .tl-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .tl-thumb:hover { border-color: var(--accent, #ff6d1f); }
+  .tl-thumb:focus-visible { outline: 2px solid var(--accent, #ff6d1f); outline-offset: 2px; }
+
+  /* ---- Lightbox ---------------------------------------------------------- */
+  .lb { position: fixed; inset: 0; display: none; z-index: 50;
+        background: rgba(15, 20, 25, 0.88); align-items: center; justify-content: center; padding: 1.5rem; }
+  .lb.open { display: flex; }
+  .lb img { max-width: 100%; max-height: 84vh; border-radius: 6px; box-shadow: 0 10px 40px rgba(0,0,0,.5); }
+  .lb figure { margin: 0; text-align: center; }
+  .lb figcaption { color: #d7dce1; font-size: 0.9rem; margin-top: 0.6rem; }
+  .lb-close {
+    position: absolute; top: 1rem; right: 1.2rem;
+    background: none; border: 0; color: #fff; font-size: 1.6rem; cursor: pointer; line-height: 1;
+  }
+  .lb-close:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+  footer { margin-top: 3rem; color: #97a0a8; font-size: 0.85rem; text-align: center; }
+
+  /* ---- Responsive -------------------------------------------------------- */
+  @media screen and (max-width: 600px) {
+    .intro h1 { font-size: 1.7rem; }
+    .tl-title { font-size: 1.08rem; }
+  }
+
+  /* ---- Reduced motion ---------------------------------------------------- */
+  @media (prefers-reduced-motion: reduce) {
+    .tl-item { opacity: 1; transform: none; transition: none; }
+    .tl-detail, .tl-head::after { transition: none; }
+  }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <a class="back" href="../"><span class="fas fa-arrow-left"></span> Back to résumé</a>
+    </div>
+
+    <header class="intro">
+      <h1>Career Journey</h1>
+      <p class="label">Ahmed Elsalahy · Embedded Systems Engineer</p>
+      <p>A timeline of the milestones that shaped my path — from early robotics, through a
+         double-degree master's in Berlin and Turku, into IoT, automotive and quantum.
+         Tap any milestone to expand it and see the details and photos.</p>
+      <div class="legend">
+        <span><i style="background:#6c63ff"></i> Academia</span>
+        <span><i style="background:#1f9d8f"></i> IoT</span>
+        <span><i style="background:#ff6d1f"></i> Automotive</span>
+        <span><i style="background:#2f5fa6"></i> Quantum</span>
+      </div>
+    </header>
+
+    <ol class="tl" id="timeline"><!-- rendered from data.js --></ol>
+
+    <footer>Built as a living timeline — more milestones &amp; photos on the way.</footer>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lb" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <button class="lb-close" id="lbClose" aria-label="Close photo">&times;</button>
+    <figure>
+      <img id="lbImg" src="" alt="">
+      <figcaption id="lbCap"></figcaption>
+    </figure>
+  </div>
+
+  <script src="data.js"></script>
+  <script>
+  (function () {
+    "use strict";
+    var DOMAINS = { academia: 1, iot: 1, automotive: 1, quantum: 1 };
+
+    function esc(s) {
+      return String(s == null ? "" : s)
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function renderMilestone(m) {
+      if (!DOMAINS[m.domain]) {
+        console.warn("Timeline: milestone '" + m.id + "' has unknown domain '" + m.domain +
+                     "' (expected academia|iot|automotive|quantum).");
+      }
+      var li = document.createElement("li");
+      li.className = "tl-item";
+      li.id = m.id;
+      li.setAttribute("data-domain", m.domain || "");
+
+      var toggleId = "tl-" + m.id;
+      var ach = (m.achievements || []).map(function (a) { return "<li>" + esc(a) + "</li>"; }).join("");
+      var achHtml = ach ? '<ul class="tl-ach">' + ach + "</ul>" : "";
+
+      var gallery = "";
+      (m.images || []).forEach(function (img) {
+        if (!img.alt) console.warn("Timeline: image in '" + m.id + "' is missing alt text.");
+        gallery +=
+          '<button class="tl-thumb" type="button" data-full="' + esc(img.full) + '" data-alt="' + esc(img.alt) + '">' +
+            '<img src="' + esc(img.thumb) + '" alt="' + esc(img.alt) + '" loading="lazy">' +
+          "</button>";
+      });
+      var galleryHtml = gallery ? '<div class="tl-gallery">' + gallery + "</div>" : "";
+
+      li.innerHTML =
+        '<span class="tl-node" aria-hidden="true"></span>' +
+        '<div class="tl-card">' +
+          '<input type="checkbox" class="tl-toggle" id="' + toggleId + '">' +
+          '<label class="tl-head" for="' + toggleId + '">' +
+            '<span class="tl-meta">' +
+              '<span class="tl-chip">' + esc(m.domain) + "</span>" +
+              '<span class="tl-date">' + esc(m.dateLabel) + "</span>" +
+            "</span>" +
+            '<h3 class="tl-title">' + esc(m.title) + "</h3>" +
+            (m.org ? '<div class="tl-org">' + esc(m.org) + "</div>" : "") +
+            (m.blurb ? '<p class="tl-blurb">' + esc(m.blurb) + "</p>" : "") +
+          "</label>" +
+          '<div class="tl-detail">' +
+            (m.description ? '<p class="tl-desc">' + esc(m.description) + "</p>" : "") +
+            achHtml +
+            galleryHtml +
+          "</div>" +
+        "</div>";
+      return li;
+    }
+
+    function render() {
+      var data = (window.TIMELINE || []).slice().sort(function (a, b) {
+        return (b.sortKey || 0) - (a.sortKey || 0);
+      });
+      var root = document.getElementById("timeline");
+      var frag = document.createDocumentFragment();
+      data.forEach(function (m) { frag.appendChild(renderMilestone(m)); });
+      root.appendChild(frag);
+      wireReveal();
+      wireLightbox();
+      handleDeepLink();
+    }
+
+    /* scroll-reveal */
+    function wireReveal() {
+      var items = document.querySelectorAll(".tl-item");
+      var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduce || !("IntersectionObserver" in window)) {
+        items.forEach(function (el) { el.classList.add("is-visible"); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add("is-visible"); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.12 });
+      items.forEach(function (el) { io.observe(el); });
+    }
+
+    /* lightbox */
+    function wireLightbox() {
+      var lb = document.getElementById("lightbox");
+      var lbImg = document.getElementById("lbImg");
+      var lbCap = document.getElementById("lbCap");
+      var lbClose = document.getElementById("lbClose");
+      var lastFocus = null;
+
+      function open(full, alt) {
+        lastFocus = document.activeElement;
+        lbImg.src = full; lbImg.alt = alt || ""; lbCap.textContent = alt || "";
+        lb.classList.add("open");
+        lbClose.focus();
+        document.addEventListener("keydown", onKey);
+      }
+      function close() {
+        lb.classList.remove("open");
+        lbImg.src = "";
+        document.removeEventListener("keydown", onKey);
+        if (lastFocus && lastFocus.focus) lastFocus.focus();
+      }
+      function onKey(e) {
+        if (e.key === "Escape") close();
+        if (e.key === "Tab") { e.preventDefault(); lbClose.focus(); } /* simple focus trap */
+      }
+
+      document.getElementById("timeline").addEventListener("click", function (e) {
+        var btn = e.target.closest(".tl-thumb");
+        if (!btn) return;
+        open(btn.getAttribute("data-full"), btn.getAttribute("data-alt"));
+      });
+      lbClose.addEventListener("click", close);
+      lb.addEventListener("click", function (e) { if (e.target === lb) close(); });
+    }
+
+    /* open the card targeted by the URL hash (#milestone-id) */
+    function handleDeepLink() {
+      if (!location.hash) return;
+      var el = document.querySelector(location.hash);
+      if (!el) return;
+      var cb = el.querySelector(".tl-toggle");
+      if (cb) cb.checked = true;
+      el.classList.add("is-visible");
+      el.scrollIntoView();
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", render);
+    } else {
+      render();
+    }
+  })();
+  </script>
+</body>
+</html>

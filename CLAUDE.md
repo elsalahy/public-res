@@ -9,10 +9,12 @@ Engineer). It is a static site deployed via **GitHub Pages** at the custom
 domain in `CNAME` (`www.ahmedelsalahy.com`).
 
 Files:
-- `index.html` — the entire site. Markup **and** CSS live inline in this one
-  file (the `<style>` block is in `<head>`). There is no build step, no
+- `index.html` — the entire resume page. Markup **and** CSS live inline in this
+  one file (the `<style>` block is in `<head>`). There is no build step, no
   framework, and no JavaScript bundler.
 - `photo.png` — profile photo referenced by `index.html`.
+- `timeline/` — a SECOND page: a visual career timeline served at
+  `www.ahmedelsalahy.com/timeline/`. See the "Career timeline" section below.
 - `CNAME` — custom domain for GitHub Pages. Do not change unless asked.
 - `README.md` — short project description.
 
@@ -84,3 +86,58 @@ In `<section id="skills">`, copy an existing `.item` block and edit its
 ### Edit the summary / title
 - Job title under the name: `<h2 class="label">`.
 - Intro paragraph: the `.main-summary` section near the top of `<body>`.
+
+## Career timeline (`/timeline/`)
+
+A second, standalone page that tells Ahmed's career story as a vertical timeline
+of milestones (academia → IoT → automotive → quantum), each expandable to show
+details, achievements, and a photo gallery with a lightbox. The resume links to
+it via the orange "View my career journey" button after `.main-summary`.
+
+It is the same kind of static site (push = deploy). Structure:
+- `timeline/index.html` — the page shell, all CSS, and all JS (render +
+  lightbox). You rarely need to touch this — only for styling or a new domain.
+- `timeline/data.js` — **THE EDIT SURFACE.** A `window.TIMELINE` array of
+  milestone objects. Adding/changing a milestone = editing this file. The page
+  renders newest-first by each object's numeric `sortKey` (higher = newer/top).
+- `timeline/img/<milestone-id>/` — optimized photos for that milestone.
+- `timeline/img/_placeholder/photo.svg` — neutral placeholder shown until real
+  photos are added (referenced via the `PLACEHOLDER` var in `data.js`).
+
+Paths are all **relative** (no leading `/`): the resume links down with
+`href="timeline/"`, and the timeline links back with `href="../"`.
+
+### Recipe: add or edit a milestone
+1. Open `timeline/data.js`. Copy an existing object in `window.TIMELINE`.
+2. Give it a **unique** `id` (lowercase-hyphen slug; also used as the image
+   folder name and the `#anchor`).
+3. Set `title`, optional `org`, `dateLabel` (free text), and `sortKey` (a number;
+   make it higher than its neighbours to place it nearer the top).
+4. Set `domain` to **exactly one of**: `academia | iot | automotive | quantum`
+   (controls the accent color + chip; an unknown value logs a console warning).
+5. Write `blurb` (one line, always visible), `description`, and the
+   `achievements` array (bullets shown when expanded).
+6. Add photos (recipe below) or leave `images` pointing at the placeholder.
+7. Commit + push to `origin/master`.
+
+To add a brand-new domain/color, add a `.tl-item[data-domain="x"]` rule (accent
++ tint) and a legend entry in `timeline/index.html`, then use that domain string.
+
+### Recipe: add photos to a milestone
+1. **Optimize first — this is mandatory.** Never commit raw phone/HEIC files;
+   they bloat git history permanently. Convert HEIC→JPEG, then resize to two
+   sizes per photo:
+   - thumbnail `NN-thumb.jpg` (~320px long edge, target < 40 KB)
+   - full `NN.jpg` (~1600px long edge, target < 250 KB)
+   (`NN` = zero-padded order: `01`, `02`, …). On a Mac, `sips` works, e.g.
+   `sips -Z 1600 -s format jpeg -s formatOptions 80 in.heic --out 01.jpg`.
+2. Put them in `timeline/img/<milestone-id>/` (matching the milestone `id`).
+3. In that milestone's `images` array, add one entry per photo:
+   `{ thumb: "img/<id>/01-thumb.jpg", full: "img/<id>/01.jpg", alt: "..." }`.
+   **`alt` is required** — describe the photo (missing alt logs a warning).
+4. Commit the images **and** the `data.js` edit together; push.
+
+### Gotchas
+- Relative paths only; back-link is `../`.
+- Keep every `id` unique (used for the anchor and the image folder).
+- Images must be pre-optimized before commit.
