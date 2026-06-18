@@ -17,20 +17,20 @@ var PLACEHOLDER = { thumb: "img/_placeholder/photo.svg", full: "img/_placeholder
 window.TIMELINE = [
 
   {
-    id: "quantum",
-    title: "Quantum Computing",
-    org: "",                       // TODO: add the company / lab
-    dateLabel: "Recent — to be added",
-    sortKey: 2023.0,               // keep this the highest while it's your newest chapter
+    id: "qbird",
+    title: "Embedded Software Team Lead",
+    org: "Q*Bird",
+    dateLabel: "Mar 2023 – Present",
+    sortKey: 2023.2,               // newest chapter — keep this the highest
     domain: "quantum",
-    blurb: "TODO: a one-line teaser about your move into quantum.",
-    description: "TODO: describe your quantum role — what you built, the hardware/control stack, and what you're most proud of. Replace this stub when you're ready.",
+    blurb: "Leading embedded software at a quantum technology company in Delft.",
+    description: "At Q*Bird (Delft, Netherlands) I work on embedded software for quantum-secure communication. I joined as a Senior Embedded Software Engineer in March 2023 and stepped up to Embedded Software Team Lead in September 2023. More detail on the achievements coming soon.",
     achievements: [
-      "TODO: achievement / milestone",
-      "TODO: achievement / milestone"
+      "Senior Embedded Software Engineer — Mar 2023 to Sep 2023",
+      "Embedded Software Team Lead — Sep 2023 to present"
     ],
     images: [
-      Object.assign({}, PLACEHOLDER, { alt: "Placeholder — add a photo from your quantum work" })
+      Object.assign({}, PLACEHOLDER, { alt: "Placeholder — add a photo from your Q*Bird work" })
     ]
   },
 
@@ -38,7 +38,7 @@ window.TIMELINE = [
     id: "lightyear",
     title: "Embedded Systems Engineer",
     org: "Lightyear",
-    dateLabel: "Dec 2021 – Present",
+    dateLabel: "Dec 2021 – Mar 2023",
     sortKey: 2021.92,
     domain: "automotive",
     blurb: "Reigniting clean mobility — firmware for the inverter of the first solar-powered electric car.",
