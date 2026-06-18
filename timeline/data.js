@@ -53,7 +53,9 @@ window.TIMELINE = [
       "Implemented inverter firmware updates over CAN and supported Telematics with OTA updates"
     ],
     images: [
-      Object.assign({}, PLACEHOLDER, { alt: "Placeholder — add a photo from your Lightyear work" })
+      { thumb: "img/lightyear/01-thumb.jpg", full: "img/lightyear/01.jpg", alt: "Ahmed Elsalahy standing beside the silver Lightyear One prototype in the workshop" },
+      { thumb: "img/lightyear/02-thumb.jpg", full: "img/lightyear/02.jpg", alt: "Ahmed pointing up at the Lightyear building sign (www.lightyear.one)" },
+      { thumb: "img/lightyear/03-thumb.jpg", full: "img/lightyear/03.jpg", alt: "The Lightyear engineering workshop seen through a glass wall, with the solar car and the team at work" }
     ]
   },
 
