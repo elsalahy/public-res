@@ -145,6 +145,18 @@
   .tl-ach { margin: 0 0 1rem; padding-left: 1.1rem; }
   .tl-ach li { margin-bottom: 0.3rem; }
 
+  /* ---- Copy-link (share) button ------------------------------------------ */
+  .tl-share {
+    display: inline-flex; align-items: center; gap: 0.4em;
+    margin-top: 1rem; padding: 0.4em 0.9em;
+    font: inherit; font-size: 0.85rem; font-weight: 600; line-height: 1;
+    color: var(--accent, #ff6d1f); background: var(--tint, #fff1e8);
+    border: 1px solid transparent; border-radius: 999px;
+    cursor: pointer; transition: background .2s ease, color .2s ease;
+  }
+  .tl-share:hover, .tl-share.is-copied { background: var(--accent, #ff6d1f); color: #fff; }
+  .tl-share:focus-visible { outline: 2px solid var(--accent, #ff6d1f); outline-offset: 2px; }
+
   /* ---- Gallery ----------------------------------------------------------- */
   .tl-gallery {
     display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
@@ -299,6 +311,10 @@
             (m.description ? '<p class="tl-desc">' + esc(m.description) + "</p>" : "") +
             achHtml +
             galleryHtml +
+            '<button class="tl-share" type="button" data-id="' + esc(m.id) + '">' +
+              '<span class="fas fa-link" aria-hidden="true"></span>' +
+              '<span class="tl-share-label">Copy link</span>' +
+            "</button>" +
           "</div>" +
         "</div>";
       return li;
@@ -314,7 +330,9 @@
       root.appendChild(frag);
       wireReveal();
       wireLightbox();
-      handleDeepLink();
+      wireShare();
+      openFromHash("auto");                                              // initial deep-link: jump
+      window.addEventListener("hashchange", function () { openFromHash("smooth"); }); // back/fwd: glide
     }
 
     /* scroll-reveal */
@@ -368,15 +386,87 @@
       lb.addEventListener("click", function (e) { if (e.target === lb) close(); });
     }
 
-    /* open the card targeted by the URL hash (#milestone-id) */
-    function handleDeepLink() {
+    /* ---- Per-milestone deep links (#milestone-id) -------------------------- */
+
+    /* Shareable URL for a milestone id, e.g. https://…/timeline/#lightyear */
+    function linkFor(id) {
+      return location.origin + location.pathname + location.search + "#" + id;
+    }
+
+    /* Reflect a milestone in the address bar without adding history entries or
+       scrolling (replaceState does NOT fire 'hashchange', so no feedback loop). */
+    function setHash(id) {
+      history.replaceState(null, "", "#" + id);
+    }
+    function clearHash(id) {
+      if (location.hash === "#" + id) {
+        history.replaceState(null, "", location.pathname + location.search);
+      }
+    }
+
+    /* Open and scroll to the card targeted by the URL hash. */
+    function openFromHash(behavior) {
       if (!location.hash) return;
-      var el = document.querySelector(location.hash);
-      if (!el) return;
+      var el;
+      try { el = document.querySelector(location.hash); } catch (e) { return; }
+      if (!el || !el.classList.contains("tl-item")) return;
       var cb = el.querySelector(".tl-toggle");
       if (cb) cb.checked = true;
       el.classList.add("is-visible");
-      el.scrollIntoView();
+      el.scrollIntoView({ behavior: behavior || "auto", block: "start" });
+    }
+
+    function copyText(text, onDone) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () { onDone(true); },
+                                                  function () { fallbackCopy(text, onDone); });
+      } else {
+        fallbackCopy(text, onDone);
+      }
+    }
+    function fallbackCopy(text, onDone) {
+      try {
+        var ta = document.createElement("textarea");
+        ta.value = text; ta.setAttribute("readonly", "");
+        ta.style.position = "absolute"; ta.style.left = "-9999px";
+        document.body.appendChild(ta); ta.select();
+        var ok = document.execCommand("copy");
+        document.body.removeChild(ta); onDone(ok);
+      } catch (e) { onDone(false); }
+    }
+
+    /* Wire the Copy-link buttons + keep the address bar in sync with what's open. */
+    function wireShare() {
+      var timeline = document.getElementById("timeline");
+
+      timeline.addEventListener("click", function (e) {
+        var btn = e.target.closest(".tl-share");
+        if (!btn) return;
+        var id = btn.getAttribute("data-id");
+        setHash(id);
+        copyText(linkFor(id), function (ok) {
+          var label = btn.querySelector(".tl-share-label");
+          if (!label) return;
+          var prev = label.getAttribute("data-prev") || label.textContent;
+          label.setAttribute("data-prev", prev);
+          label.textContent = ok ? "Link copied!" : "Press Ctrl+C to copy";
+          btn.classList.add("is-copied");
+          clearTimeout(btn._t);
+          btn._t = setTimeout(function () {
+            label.textContent = prev;
+            btn.classList.remove("is-copied");
+          }, 1800);
+        });
+      });
+
+      // When a card is expanded, point the URL at it; clear when it's closed.
+      timeline.addEventListener("change", function (e) {
+        var cb = e.target;
+        if (!cb.classList || !cb.classList.contains("tl-toggle")) return;
+        var item = cb.closest(".tl-item");
+        if (!item || !item.id) return;
+        if (cb.checked) setHash(item.id); else clearHash(item.id);
+      });
     }
 
     if (document.readyState === "loading") {
