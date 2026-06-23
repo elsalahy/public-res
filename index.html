@@ -708,6 +708,10 @@ section .location {
   color: #fff;
   background: #ff6d1f;
 }
+button.timeline-link {
+  font-family: inherit;
+  cursor: pointer;
+}
 
 @media print {
   .timeline-link {
@@ -895,6 +899,7 @@ section .location {
     			<div><p>Working as an embedded systems engineer in the fields of Automotive and IoT for the past 7+ years, I can tell you with confidence that it is a unique journey. After finishing my electrical engineering bachelor's, I had a goal of honing the craft of embedded software engineering. 2 master's degrees and multiple awesome projects later, and now I'm looking for the next chapter in my journey.</p></div>
     			<a class="timeline-link" href="timeline/"><span class="fas fa-stream"></span> View my career journey &rarr;</a>
     			<a class="timeline-link alt" href="projects/"><span class="fas fa-folder-open"></span> Browse my projects &rarr;</a>
+    			<button type="button" class="timeline-link alt download-btn" onclick="downloadResume()"><span class="fas fa-file-pdf"></span> Download PDF</button>
     		</section>
     	</section>
     
@@ -1563,5 +1568,21 @@ section .location {
       </section>
     </section>
 
+    <script>
+      // "Download PDF" button: opens the browser's print dialog (Save as PDF),
+      // reusing the @media print stylesheet so the PDF matches the site.
+      // Temporarily swaps the document title so the suggested filename is nice,
+      // then restores it after printing — keeps the visible page/tab title intact.
+      function downloadResume() {
+        var original = document.title;
+        document.title = "Ahmed Elsalahy - Resume";
+        function restore() {
+          document.title = original;
+          window.removeEventListener("afterprint", restore);
+        }
+        window.addEventListener("afterprint", restore);
+        window.print();
+      }
+    </script>
   </body>
 </html>
