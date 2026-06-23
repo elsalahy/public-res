@@ -63,7 +63,9 @@ window.TIMELINE = [
       { thumb: "img/lightyear/08-thumb.jpg", full: "img/lightyear/08.jpg", alt: "Ahmed's journey at Lightyear" },
       { thumb: "img/lightyear/09-thumb.jpg", full: "img/lightyear/09.jpg", alt: "Ahmed's journey at Lightyear" },
       { thumb: "img/lightyear/10-thumb.jpg", full: "img/lightyear/10.jpg", alt: "Ahmed's journey at Lightyear" },
-      { thumb: "img/lightyear/11-thumb.jpg", full: "img/lightyear/11.jpg", alt: "Ahmed's journey at Lightyear" }
+      { thumb: "img/lightyear/11-thumb.jpg", full: "img/lightyear/11.jpg", alt: "Ahmed's journey at Lightyear" },
+      { thumb: "img/lightyear/12-thumb.jpg", full: "img/lightyear/12.jpg", alt: "Ahmed's journey at Lightyear" },
+      { thumb: "img/lightyear/13-thumb.jpg", full: "img/lightyear/13.jpg", alt: "Ahmed's journey at Lightyear" }
     ]
   },
 
