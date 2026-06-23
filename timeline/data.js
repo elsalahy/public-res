@@ -53,12 +53,12 @@ window.TIMELINE = [
       "Implemented inverter firmware updates over CAN and supported Telematics with OTA updates"
     ],
     images: [
-      { thumb: "img/lightyear/01-thumb.jpg", full: "img/lightyear/01.jpg", alt: "Ahmed Elsalahy standing beside the silver Lightyear One prototype in the workshop" },
-      { thumb: "img/lightyear/02-thumb.jpg", full: "img/lightyear/02.jpg", alt: "Ahmed pointing up at the Lightyear building sign (www.lightyear.one)" },
-      { thumb: "img/lightyear/03-thumb.jpg", full: "img/lightyear/03.jpg", alt: "The Lightyear engineering workshop seen through a glass wall, with the solar car and the team at work" },
-      { thumb: "img/lightyear/04-thumb.jpg", full: "img/lightyear/04.jpg", alt: "Ahmed sitting in the driver's seat of the silver Lightyear One, giving a thumbs up" },
-      { thumb: "img/lightyear/05-thumb.jpg", full: "img/lightyear/05.jpg", alt: "Ahmed leaning out of the window of the bronze Lightyear 2 prototype beside the Lightyear display" },
-      { thumb: "img/lightyear/06-thumb.jpg", full: "img/lightyear/06.jpg", alt: "Farewell desk setup with Lightyear t-shirts, a 'Good luck Ahmed' card and a Buzz Lightyear scene on the monitor" }
+      { thumb: "img/lightyear/01-thumb.jpg", full: "img/lightyear/01.jpg", alt: "Ahmed's journey at Lightyear" },
+      { thumb: "img/lightyear/02-thumb.jpg", full: "img/lightyear/02.jpg", alt: "Ahmed's journey at Lightyear" },
+      { thumb: "img/lightyear/03-thumb.jpg", full: "img/lightyear/03.jpg", alt: "Ahmed's journey at Lightyear" },
+      { thumb: "img/lightyear/04-thumb.jpg", full: "img/lightyear/04.jpg", alt: "Ahmed's journey at Lightyear" },
+      { thumb: "img/lightyear/05-thumb.jpg", full: "img/lightyear/05.jpg", alt: "Ahmed's journey at Lightyear" },
+      { thumb: "img/lightyear/06-thumb.jpg", full: "img/lightyear/06.jpg", alt: "Ahmed's journey at Lightyear" }
     ]
   },
 
